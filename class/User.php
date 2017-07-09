@@ -1,32 +1,45 @@
 <?php
 
-require_once './interfaces/ActiveRecord';
+require_once './interfaces/ActiveRecord.php';
+
 
 class User implements ActiveRecord, JsonSerializable {
 
-    private $id, $address_id, $name, $surname, $credits, $password;
+    private $id,$name, $surname, $address_id, $credits, $password;
 
-    function __construct($id, $address_id, $name, $surname, $credits, $password){
-    }
-
-    static function load($id){
+    function __construct($id,$name, $surname, $address_id, $credits, $password)
+    {
 
     }
 
-    static function loadAll(){
-
+    static function load($id)
+    {
+        // TODO: Implement load() method.
     }
 
-    static function update(){
-
+    static function loadAll()
+    {
+        // TODO: Implement loadAll() method.
     }
 
-    static function save(){
-
+    function save()
+    {
+        // TODO: Implement save() method.
     }
 
-    static function delete(){
+    function update()
+    {
+        // TODO: Implement update() method.
+    }
 
+    function delete()
+    {
+        // TODO: Implement delete() method.
+    }
+
+    function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
     }
 
     /**
@@ -43,22 +56,6 @@ class User implements ActiveRecord, JsonSerializable {
     private function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAddressId()
-    {
-        return $this->address_id;
-    }
-
-    /**
-     * @param mixed $address_id
-     */
-    public function setAddressId($address_id)
-    {
-        $this->address_id = $address_id;
     }
 
     /**
@@ -96,6 +93,22 @@ class User implements ActiveRecord, JsonSerializable {
     /**
      * @return mixed
      */
+    public function getAddressId()
+    {
+        return $this->address_id;
+    }
+
+    /**
+     * @param mixed $address_id
+     */
+    public function setAddressId($address_id)
+    {
+        $this->address_id = $address_id;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getCredits()
     {
         return $this->credits;
@@ -124,6 +137,8 @@ class User implements ActiveRecord, JsonSerializable {
     {
         $this->password = $password;
     }
+
+
 
 
 
