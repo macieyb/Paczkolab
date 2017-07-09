@@ -2,9 +2,9 @@
 
 require('./class/abstract/database.php');
 require('./class/interfaces/ActiveRecord.php');
-require('./class/parcel.php');
-require('./class/size.php');
-require('./class/address.php');
-require('./class/user.php');
-require('./class/box.php');
+require('./class/Parcel.php');
+require('./class/Size.php');
+require('./class/Address.php');
+require('./class/User.php');
+require('./class/Box.php');
 require('config.php');
