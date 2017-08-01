@@ -7,23 +7,24 @@ use PHPUnit\DbUnit\TestCase;
 
 class AddressTest extends TestCase
 {
-
+    private $address;
     private $conn;
     private $pdo;
 
     function __construct()
     {
         parent::__construct();
-        $this->pdo = new PDO(
+        $this->pdo = new Database(
             $GLOBALS['DB_DSN'],
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_PASSWD']
         );
+
     }
 
     protected function getConnection()
     {
-      return $this->createDefaultDBConnection($this->pdo, $GLOBALS['DB_DBNAME']);
+        return $this->createDefaultDBConnection($this->pdo->pdo, $GLOBALS['DB_DBNAME']);
 
     }
 
@@ -33,25 +34,37 @@ class AddressTest extends TestCase
         return $dataMysql;
     }
 
+    protected function setUp()
+    {
+        parent::SetUp();
+        DB::$conn=$this->pdo;
+        $this->address = new Address();
+        $this->address->setCity('Krakow');
+        $this->address->setCode('30-112');
+        $this->address->setStreet('Syrokomli');
+        $this->address->setFlat(20);
+        
+
+    }
+
+
     function testLoad()
     {
         $address = new Address();
-        $this->assertEquals(-1,$address->getId());
+        $this->assertEquals(-1, $address->getId());
         $address->load(2);
-        $this->assertEquals(2,$address->getId());
-        $this->assertEquals("Warszawa",$address->getCity());
-        $this->assertEquals("00-999",$address->getCode());
-        $this->assertEquals('Jerozolimskie',$address->getStreet());
-        $this->assertEquals(200,$address->getFlat());
+        $this->assertEquals(2, $address->getId());
+        $this->assertEquals("Warszawa", $address->getCity());
+        $this->assertEquals("00-999", $address->getCode());
+        $this->assertEquals('Jerozolimskie', $address->getStreet());
+        $this->assertEquals(200, $address->getFlat());
     }
-    function testSave(){
-        $address = new Address();
-        $address->setCity('Krakow');
-        $address->setCode('30-112');
-        $address->setStreet('Syrokomli');
-        $address->setFlat(20);
-        $address->save();
-        $this->assertNotEquals(13,$address->getId());
-        $this->assertEquals(13,$address->getId());
+
+    function testSave()
+    {
+       
+        $this->address->save();
+        $this->assertNotEquals(13, $this->address->getId());
+        $this->assertEquals(13, $this->address->getId());
     }
 }
