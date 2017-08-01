@@ -1,42 +1,70 @@
 <?php
 
-require_once './interfaces/ActiveRecord.php';
+require_once 'interfaces/ActiveRecord.php';
+require_once 'abstract/DB.php';
 
 
-class User extends DB implements ActiveRecord, JsonSerializable {
 
-    private $id,$name, $surname, $address_id, $credits, $password;
+class User extends DB implements ActiveRecord, JsonSerializable{
 
-    function __construct($id,$name, $surname, $address_id, $credits, $password)
+    protected $id,$name, $surname, $address_id, $credits, $password;
+
+    public function __construct() {
+        $this->id = -1;
+    }
+
+    public function load($id)
     {
+
+        $sql = "Select * from user where id = $id";
+
+        if ($result = self::$conn->query($sql)) {
+            $row = $result->fetch(PDO::FETCH_ASSOC);
+
+            $this->id = $row['id'];
+            $this->name = $row['name'];
+            $this->surname = $row['surname'];
+            $this->credits = $row['credits'];
+            $this->pass = $row['pass'];
+            $this->address_id = $row['address_id'];
+
+            return $this;
+
+        } else {
+
+            return false;
+
+        }
+    }
+
+    static public function loadAll(){
+
+        $sql = "SELECT * FROM user";
+
+        if ($result = self::$conn->query($sql,null)) {
+            foreach ($result as $key => $value) {
+                $row[$key] = $value;
+            }
+            return $row;
+
+        }else {
+            return false;
+        }
+
 
     }
 
-    static function load($id)
-    {
-        // TODO: Implement load() method.
-        $sql = "";
-        $params = [];
-        return self::$conn->getData($sql, $params);
-
-    }
-
-    static function loadAll()
-    {
-        // TODO: Implement loadAll() method.
-    }
-
-    function save()
+    public function save()
     {
         // TODO: Implement save() method.
     }
 
-    function update()
+    public function update()
     {
         // TODO: Implement update() method.
     }
 
-    function delete()
+    public function delete()
     {
         // TODO: Implement delete() method.
     }
@@ -139,11 +167,36 @@ class User extends DB implements ActiveRecord, JsonSerializable {
      */
     private function setPassword($password)
     {
-        $this->password = $password;
+        $options = [
+            'cost' => 11,
+            'salt' => random_bytes(22),
+        ];
+        $this->password = password_hash($password, PASSWORD_BCRYPT, $options);
     }
 
+    public function saveToDB()
+    {
+        if ($this->id == -1) {
+            // przygotowanie zapytania
+            $sql = "INSERT INTO user(address_id, name, surname, credits, pass) VALUES (:address_id, :name, :surname, :credits, :pass)";
+            $prepare = $conn->prepare($sql);
 
+            // Wysłanie zapytania do bazy z kluczami i wartościami do podmienienia
+            $result = $prepare->execute(
+                [
+                    'address_id'     => $this->address_id,
+                    'name'     => $this->name,
+                    'surname'     => $this->surname,
+                    'credits'        => $this->credits,
+                    'pass' => $this->pass,
+                ]
+            );
 
-
+            // Pobranie ostatniego ID dodanego rekordu
+            $this->id = $conn->lastInsertId();
+            return (bool)$result;
+        }
+        return false;
+    }
 
 }

@@ -2,5 +2,8 @@
 
 abstract class DB {
     static $conn;
+
 }
+
+
 

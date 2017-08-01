@@ -15,7 +15,7 @@ interface ActiveRecord{
      * @return Array of Objects / Exception on error
      */
 
-    function loadAll()
+    static function loadAll();
 
     /**
      * @return mixed

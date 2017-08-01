@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="Paczkolab_test">
+	<table_data name="address">
+	<row>
+		<field name="id">2</field>
+		<field name="city">Warszawa</field>
+		<field name="code">00-999</field>
+		<field name="street">Jerozolimskie</field>
+		<field name="flat">200</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="city">WrocÅ‚aw</field>
+		<field name="code">11-200</field>
+		<field name="street">LeÅ¼ajska</field>
+		<field name="flat">159</field>
+	</row>
+	<row>
+		<field name="id">12</field>
+		<field name="city">PoznaÅ„</field>
+		<field name="code">02-300</field>
+		<field name="street">MielÅ¼yÅ„skiego</field>
+		<field name="flat">15</field>
+	</row>
+	</table_data>
+	<table_data name="box">
+	<row>
+		<field name="id">1</field>
+		<field name="size_id">5</field>
+		<field name="address_id">2</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="size_id">1</field>
+		<field name="address_id">7</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="size_id">6</field>
+		<field name="address_id">6</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="size_id">1</field>
+		<field name="address_id">1</field>
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="size_id">1</field>
+		<field name="address_id">1</field>
+	</row>
+	<row>
+		<field name="id">8</field>
+		<field name="size_id">1</field>
+		<field name="address_id">1</field>
+	</row>
+	</table_data>
+	<table_data name="parcel">
+	</table_data>
+	<table_data name="size">
+	</table_data>
+	<table_data name="user">
+	</table_data>
+</database>
+</mysqldump>
