@@ -7,6 +7,7 @@ interface ActiveRecord{
 
     /**
      * @param $id
+     * @param $conn
      * @return object
      */
     function load($id);

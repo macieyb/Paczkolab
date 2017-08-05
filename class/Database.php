@@ -27,3 +27,6 @@ class Database implements DBInterface {
         return $this->pdo->lastInsertId();
     }
 }
+//$prepare = $connection->prepare($sql);
+//// Wysłanie zapytania do bazy z kluczami i wartościami do podmienienia
+//$result = $prepare->execute(

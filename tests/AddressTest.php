@@ -11,20 +11,18 @@ class AddressTest extends TestCase
     private $conn;
     private $pdo;
 
-    function __construct()
+
+
+    protected function getConnection()
     {
-        parent::__construct();
-        $this->pdo = new Database(
+        $this->pdo = new PDO(
             $GLOBALS['DB_DSN'],
             $GLOBALS['DB_USER'],
             $GLOBALS['DB_PASSWD']
         );
 
-    }
-
-    protected function getConnection()
-    {
-        return $this->createDefaultDBConnection($this->pdo->pdo, $GLOBALS['DB_DBNAME']);
+//        $this->conn = $this->createDefaultDBConnection($this->pdo, $GLOBALS['DB_DBNAME']);
+        return $this->createDefaultDBConnection($this->pdo, $GLOBALS['DB_DBNAME']);
 
     }
 
@@ -34,22 +32,12 @@ class AddressTest extends TestCase
         return $dataMysql;
     }
 
-    protected function setUp()
-    {
-        parent::SetUp();
-        DB::$conn=$this->pdo;
-        $this->address = new Address();
-        $this->address->setCity('Krakow');
-        $this->address->setCode('30-112');
-        $this->address->setStreet('Syrokomli');
-        $this->address->setFlat(20);
-        
-
-    }
+ 
 
 
     function testLoad()
     {
+
         $address = new Address();
         $this->assertEquals(-1, $address->getId());
         $address->load(2);
@@ -62,9 +50,27 @@ class AddressTest extends TestCase
 
     function testSave()
     {
-       
-        $this->address->save();
-        $this->assertNotEquals(13, $this->address->getId());
-        $this->assertEquals(13, $this->address->getId());
+        $address = new Address();
+        $address->setCity('Krakow');
+        $address->setCode('30-112');
+        $address->setStreet('Syrokomli');
+        $address->setFlat(20);
+        $address->save();
+        $this->assertNotEquals(-1, $address->getId());
+        $address->setFlat(25);
+        $id1=$address->getId();
+       $address->save();
+        $id2 = $address->getId();
+        $this->assertEquals($id1,$id2);
+        $address = new Address();
+        $address->load($id2);
+        $this->assertEquals(25,$address->getFlat());
+
+    }
+    function testloadAll()
+    {
+        $result = Address::loadAll();
+        $this->assertNotEmpty($result);
+        $this->assertEquals(4,count($result));
     }
 }

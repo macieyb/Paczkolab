@@ -1,8 +1,8 @@
 <?php
 
-require_once 'interfaces/ActiveRecord.php';
-require_once 'abstract/DB.php';
-include_once './load.php';
+require_once __DIR__ . '/interfaces/ActiveRecord.php';
+require_once __DIR__ . '/abstract/DB.php';
+include_once __DIR__ . './../load.php';
 
 
 class Address extends DB implements ActiveRecord, JsonSerializable
@@ -97,7 +97,7 @@ class Address extends DB implements ActiveRecord, JsonSerializable
 
     public function save()
     {
-        if ($this->id = -1) {
+        if ($this->id == -1) {
             $params = ['city' => $this->city,
                 'code' => $this->code,
                 'street' => $this->street,
@@ -109,41 +109,42 @@ class Address extends DB implements ActiveRecord, JsonSerializable
             $this->id = self::$conn->lastId();
             return (bool)$result;
         } else {
-            $params = ['id' => $this->id,
-                'city' => $this->city,
-                'code' => $this->code,
-                'street' => $this->street,
-                'flat' => $this->flat
-            ];
-            $sql = "UPDATE address SET city=:city,code=:code,street=:street,flat=:flat WHERE id=:id";
-            $result = self::$conn->query($sql, $params);
-            if ($result === true) {
-                return true;
-            }
-            // TODO: Implement save() method.
-
+       $this->update();
         }
+        // TODO: Implement save() method.
+
+
     }
 
-        public
-        function update()
-        {
-            // TODO: Implement update() method.
+    public function update()
+    {
+        $params = ['id' => $this->id,
+            'city' => $this->city,
+            'code' => $this->code,
+            'street' => $this->street,
+            'flat' => $this->flat
+        ];
+        $sql = "UPDATE address SET city=:city,code=:code,street=:street,flat=:flat WHERE id=:id";
+        $result = self::$conn->query($sql, $params);
+        if ($result === true) {
+            return true;
         }
+        // TODO: Implement update() method.
+    }
 
-        public
-        function delete()
-        {
-            // TODO: Implement delete() method.
-        }
+    public
+    function delete()
+    {
+        // TODO: Implement delete() method.
+    }
 
-        function jsonSerialize()
-        {
-            // TODO: Implement jsonSerialize() method.
-        }
+    function jsonSerialize()
+    {
+        // TODO: Implement jsonSerialize() method.
+    }
 
 
-        static public function loadAll()
+    static public function loadAll()
     {
         $sql = "SELECT * FROM address";
 
@@ -158,4 +159,4 @@ class Address extends DB implements ActiveRecord, JsonSerializable
         }
     }
 
-    }
+}
